@@ -341,6 +341,8 @@ class galera (
   Optional[String] $arbitrator_service_name = undef,
   Optional[String] $bootstrap_command = undef,
   Optional[String] $client_package_name = undef,
+  Optional[String] $config_file = undef,
+  Optional[String] $config_file_mode = undef,
   Optional[Boolean] $create_root_user = undef,
   Optional[String] $galera_package_ensure = undef,
   Optional[String] $galera_package_name = undef,
@@ -430,7 +432,6 @@ class galera (
   # $vendor_version and $vendor_type. These parameters will later be passed
   # to the mysql::server class.
   $optional_params = {
-    config_file => undef,
     includedir => undef,
   }.reduce({}) |$memo, $x| {
     $_v = lookup("${module_name}::${vendor_type}::${vendor_version_internal}::${$x[0]}", { default_value => undef }) ? {
@@ -625,6 +626,8 @@ class galera (
       root_password      => $root_password,
       service_enabled    => $service_enabled,
       service_name       => $params['mysql_service_name'],
+      config_file        => $config_file,
+      config_file_mode   => $config_file_mode,
       *                  => $optional_params,
     }
 
